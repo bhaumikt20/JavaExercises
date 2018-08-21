@@ -1,0 +1,97 @@
+package assignment2;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ReversedSentence {
+    static Character character[][] = new Character[3][80];
+
+    static void getInput() throws IOException {
+        BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+
+        String sentenceOne;
+        String sentenceTwo;
+        String sentenceThree;
+
+        System.out.println("Enter Sentence one");
+        sentenceOne = input.readLine();
+
+        while (sentenceOne.length() > 80) {
+            System.out.println("Sentence must not exceed length of 80, please enter sentence one again");
+            sentenceOne = input.readLine();
+        }
+
+        reverseByCharacter(sentenceOne);
+
+        System.out.println("Enter Sentence two");
+        sentenceTwo = input.readLine();
+
+        while (sentenceTwo.length() > 80) {
+            System.out.println("Sentence must not exceed length of 80, please enter sentence two again");
+            sentenceTwo = input.readLine();
+        }
+
+        reverseByWord(sentenceTwo);
+
+        System.out.println("Enter Sentence three");
+        sentenceThree = input.readLine();
+
+        while (sentenceThree.length() > 80) {
+            System.out.println("Sentence must not exceed length of 80, please enter sentence three again");
+            sentenceThree = input.readLine();
+        }
+        input.close();
+        change5thPosition(sentenceThree);
+    }
+
+    private static void reverseByWord(String sentenceTwo) {
+        String[] words = sentenceTwo.split(" ");
+        String reverseSentence = new String();
+        for (int i = words.length - 1; i >= 0; i--) {
+            reverseSentence = reverseSentence + words[i] + " ";
+        }
+        for (int i = 0; i < reverseSentence.trim().toCharArray().length; i++) {
+            character[1][i] = reverseSentence.trim().toCharArray()[i];
+        }
+    }
+
+    private static void change5thPosition(String sentenceThree) {
+        char[] chars = sentenceThree.toCharArray();
+
+        for (int i = 0; i < chars.length; i++) {
+            if (i != 0 && i % 5 == 0)
+                character[2][i] = 'z';
+            else
+                character[2][i] = chars[i];
+        }
+    }
+
+    private static void reverseByCharacter(String sentenceOne) {
+        String temp = "";
+        char[] chars = sentenceOne.toCharArray();
+        for (int i = sentenceOne.length() - 1; i >= 0; i--) {
+            temp += chars[i];
+        }
+        for (int i = 0; i < sentenceOne.length(); i++) {
+            character[0][i] = temp.toCharArray()[i];
+        }
+    }
+
+    static void printChar2DArray() {
+        for (int row = 0; row < character.length; row++) {
+            for (int column = 0; column < character[row].length; column++) {
+                if (character[row][column] != null)
+                    System.out.print(character[row][column] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        ReversedSentence.getInput();
+        ReversedSentence.printChar2DArray();
+    }
+}
